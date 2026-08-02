@@ -1,4 +1,9 @@
-# 🤖 SQLMind AI
+#  SQLMind AI
+![Python](https://img.shields.io/badge/Python-3.10+-blue)
+![PyTorch](https://img.shields.io/badge/PyTorch-2.x-red)
+![Transformers](https://img.shields.io/badge/HuggingFace-Transformers-yellow)
+![Streamlit](https://img.shields.io/badge/Streamlit-App-ff4b4b)
+![License](https://img.shields.io/badge/License-MIT-green)
 
 <p align="center">
   <b>Generate SQL Queries from Natural Language using a Fine-Tuned Qwen2.5 Model</b>
@@ -18,12 +23,12 @@ Whether you're learning SQL or building database applications, SQLMind AI allows
 
 | Feature | Description |
 |----------|-------------|
-| 🤖 Natural Language to SQL | Converts English prompts into SQL queries |
-| ⚡ Fine-Tuned Qwen2.5 | Uses a QLoRA fine-tuned language model |
-| 💻 Streamlit Interface | Clean and interactive web application |
-| 📥 SQL Export | Download generated SQL queries |
-| 🚀 Efficient Inference | 4-bit quantized model for lower memory usage |
-| 🛠️ Training Pipeline | Dataset preparation, tokenization, and fine-tuning |
+|  Natural Language to SQL | Converts English prompts into SQL queries |
+|  Fine-Tuned Qwen2.5 | Uses a QLoRA fine-tuned language model |
+|  Streamlit Interface | Clean and interactive web application |
+|  SQL Export | Download generated SQL queries |
+|  Efficient Inference | 4-bit quantized model for lower memory usage |
+|  Training Pipeline | Dataset preparation, tokenization, and fine-tuning |
 
 ---
 
@@ -64,11 +69,8 @@ SQLMind-AI/
 ├── configs/
 │   └── training_config.py
 │
-├── data/
-│
-├── outputs/
-│
 ├── requirements.txt
+├── .gitignore
 └── README.md
 ```
 
@@ -101,12 +103,12 @@ pip install -r requirements.txt
 
 ---
 
-## 🚀 Installation
+##  Installation
 
 Clone the repository:
 
 ```bash
-git clone https://github.com/your-username/SQLMind-AI.git
+git clone https://github.com/Sana1020/SQLMind-AI.git
 ```
 
 Navigate to the project:
@@ -141,7 +143,7 @@ pip install -r requirements.txt
 
 ---
 
-## ▶️ Running the Application
+##  Running the Application
 
 Launch the Streamlit application:
 
@@ -183,7 +185,7 @@ The model is fine-tuned using **QLoRA** with **4-bit quantization** for efficien
 
 ---
 
-## 💡 Example
+##  Example
 
 ### Input
 
@@ -210,18 +212,17 @@ WHERE salary > 7000;
 
 ---
 
-## 🔮 Future Improvements
+##  Future Improvements
 
-- Database schema awareness
-- Support for multiple SQL dialects
-- SQL explanation mode
+- Database schema-aware prompting
+- Multi-table query generation
+- Support for multiple SQL dialects (MySQL, PostgreSQL, SQLite)
+- SQL explanation and debugging mode
 - Query optimization suggestions
-- Chat history
-- Dark/Light mode
-
+- Docker deployment
 ---
 
-## 👩‍💻 Author
+##  Author
 
 **Sana Elbakry**
 
@@ -230,7 +231,3 @@ Faculty of Computers and Artificial Intelligence
 Artificial Intelligence Student
 
 ---
-
-## 📄 License
-
-This project is intended for educational and research purposes.
