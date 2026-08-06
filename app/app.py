@@ -223,7 +223,7 @@ if st.button("Run Query", use_container_width=True):
 
     if question.strip():
 
-        with st.spinner("Generating SQL query..."):
+        with st.spinner("Executing query..."):
 
             try:
 
