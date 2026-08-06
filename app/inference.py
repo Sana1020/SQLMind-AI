@@ -64,10 +64,6 @@ def load_model():
 
     print("Base model loaded.")
 
-    # ==========================
-    # Adapter Debug
-    # ==========================
-
     print("Loading adapter config...")
     config = PeftConfig.from_pretrained(ADAPTER_MODEL)
     print("Adapter config loaded.")
