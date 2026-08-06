@@ -23,7 +23,7 @@ The model was fine-tuned using QLoRA for efficient inference while maintaining h
 
 ---
 
-# ✨ Features
+#  Features
 
 | Feature | Description |
 |----------|-------------|
@@ -38,7 +38,7 @@ The model was fine-tuned using QLoRA for efficient inference while maintaining h
 
 ---
 
-# 🏗️ Project Architecture
+#  Project Architecture
 
 ```text
                 User
@@ -61,7 +61,7 @@ The model was fine-tuned using QLoRA for efficient inference while maintaining h
 
 ---
 
-# 📂 Project Structure
+#  Project Structure
 
 ```text
 SQLMind-AI/
@@ -89,7 +89,7 @@ SQLMind-AI/
 
 ---
 
-# 🛠️ Tech Stack
+#  Tech Stack
 
 - Python
 - PyTorch
@@ -105,7 +105,7 @@ SQLMind-AI/
 
 ---
 
-# ⚙️ Requirements
+#  Requirements
 
 - Python 3.10+
 - CUDA-enabled GPU (recommended)
@@ -119,7 +119,7 @@ pip install -r requirements.txt
 
 ---
 
-# 🚀 Installation
+#  Installation
 
 Clone the repository:
 
@@ -170,7 +170,7 @@ streamlit run app/app.py
 Then open your browser and start interacting with your database using natural language.
 ---
 
-# 🧠 Training Workflow
+#  Training Workflow
 
 ### 1. Prepare the Dataset
 
@@ -200,7 +200,7 @@ The model is fine-tuned using **QLoRA** with **4-bit quantization**, enabling ef
 
 ---
 
-# 💡 Example
+#  Example
 
 ### User Input
 
@@ -225,7 +225,7 @@ WHERE Country = 'Germany';
 
 ---
 
-# 📌 Example Prompts
+#  Example Prompts
 
 - List all employees
 - Show all products
@@ -248,13 +248,13 @@ This makes it easy to reuse generated queries or analyze the returned data using
 
 ---
 
-# 🕘 Query History
+#  Query History
 
 The application stores recently executed queries during the current session, allowing users to quickly review previously generated SQL statements.
 
 ---
 
-# 🚀 Future Improvements
+#  Future Improvements
 
 - Automatic Database Schema Detection
 - Support for PostgreSQL and MySQL
@@ -268,7 +268,7 @@ The application stores recently executed queries during the current session, all
 
 ---
 
-# 📷 Screenshots
+#  Project Screenshots
 
 ### Home Page
 
@@ -296,7 +296,7 @@ GitHub: https://github.com/Sana1020
 
 ---
 
-# ⭐ Acknowledgments
+#  Acknowledgments
 
 This project was built using:
 
