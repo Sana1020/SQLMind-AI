@@ -1,6 +1,7 @@
 import torch
 from transformers import AutoTokenizer, AutoModelForCausalLM, BitsAndBytesConfig
-from peft import PeftModel
+from peft import PeftModel, PeftConfig
+import sqlite3
 
 BASE_MODEL = "Qwen/Qwen2.5-3B-Instruct"
 ADAPTER_MODEL = "Sana2030/sqlmind-lora"
@@ -12,12 +13,29 @@ _tokenizer = None
 def load_model():
     global _model, _tokenizer
 
-    if _model is None:
-        print("Loading tokenizer...")
+    if _model is not None:
+        return _model, _tokenizer
 
-        _tokenizer = AutoTokenizer.from_pretrained(BASE_MODEL)
+    print("=" * 50)
+    print("CUDA Available:", torch.cuda.is_available())
 
-        print("Loading base model...")
+    if torch.cuda.is_available():
+        print("GPU:", torch.cuda.get_device_name(0))
+    else:
+        print("Running on CPU")
+
+    print("=" * 50)
+
+    print("Loading tokenizer...")
+    _tokenizer = AutoTokenizer.from_pretrained(
+        BASE_MODEL,
+        trust_remote_code=True
+    )
+    print("Tokenizer loaded.")
+
+    if torch.cuda.is_available():
+
+        print("Loading model on GPU...")
 
         bnb_config = BitsAndBytesConfig(
             load_in_4bit=True,
@@ -30,35 +48,116 @@ def load_model():
             BASE_MODEL,
             quantization_config=bnb_config,
             device_map="auto",
+            trust_remote_code=True,
         )
 
-        print("Loading adapter...")
+    else:
 
+        print("Loading model on CPU...")
+
+        base_model = AutoModelForCausalLM.from_pretrained(
+            BASE_MODEL,
+            dtype=torch.float32,  
+            low_cpu_mem_usage=True,
+            trust_remote_code=True,
+        )
+
+    print("Base model loaded.")
+
+    # ==========================
+    # Adapter Debug
+    # ==========================
+
+    print("Loading adapter config...")
+    config = PeftConfig.from_pretrained(ADAPTER_MODEL)
+    print("Adapter config loaded.")
+
+    print("Adapter trained on:", config.base_model_name_or_path)
+
+    print("Loading LoRA adapter...")
+
+    try:
         _model = PeftModel.from_pretrained(
             base_model,
             ADAPTER_MODEL,
         )
+        print("Adapter loaded.")
 
-        _model.eval()
+    except Exception as e:
+        print("ERROR while loading adapter:")
+        print(e)
+        raise
 
-        print("Model loaded successfully!")
+    _model.eval()
+
+    print("Model loaded successfully!")
 
     return _model, _tokenizer
+def get_database_schema():
 
+    conn = sqlite3.connect("database/northwind2000.sqlite")
+
+    cursor = conn.cursor()
+
+    cursor.execute("""
+        SELECT name
+        FROM sqlite_master
+        WHERE type='table'
+        AND name NOT LIKE 'sqlite_%'
+    """)
+
+    tables = cursor.fetchall()
+
+    schema = ""
+
+    for table in tables:
+
+        table_name = table[0]
+
+        cursor.execute(f"PRAGMA table_info('{table_name}')")
+
+        columns = cursor.fetchall()
+
+        column_names = ", ".join(col[1] for col in columns)
+
+        schema += f"{table_name}({column_names})\n"
+
+    conn.close()
+
+    return schema
 
 def generate_sql(question):
+
     model, tokenizer = load_model()
 
-    prompt = f"""### Instruction:
-Generate a SQL query for the following question.
+    schema = get_database_schema()
 
-### Question:
+    prompt = f"""
+You are an expert SQLite developer.
+
+Database Schema:
+{schema}
+
+Important Rules:
+1. Use ONLY the table names above.
+2. Use ONLY the column names above.
+3. NEVER invent a table or column.
+4. If the table is Products, use ProductName instead of product.
+5. Return ONLY SQL.
+
+Question:
 {question}
+
+
+
 
 ### Response:
 """
-
-    inputs = tokenizer(prompt, return_tensors="pt").to(model.device)
+    print("=" * 50)
+    print(prompt)
+    print("=" * 50)
+    inputs = tokenizer(prompt, return_tensors="pt")
+    inputs = {k: v.to(model.device) for k, v in inputs.items()}
 
     with torch.no_grad():
         outputs = model.generate(
@@ -70,6 +169,11 @@ Generate a SQL query for the following question.
         )
 
     generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+
     sql = generated_text.split("### Response:")[-1].strip()
 
     return sql
+if __name__ == "__main__":
+    print("Testing model loading...")
+    load_model()
+    print("Done.")

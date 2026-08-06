@@ -14,5 +14,16 @@ adapters/
 # Dataset
 data/
 
-# Environment
+# Database
+database/*.sqlite
+database/*.db
+
+# Environment variables
 .env
+
+# Jupyter
+.ipynb_checkpoints/
+
+# OS
+.DS_Store
+Thumbs.db

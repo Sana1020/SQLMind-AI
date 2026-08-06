@@ -1,65 +1,78 @@
-#  SQLMind AI
+# SQLMind AI
+
 ![Python](https://img.shields.io/badge/Python-3.10+-blue)
 ![PyTorch](https://img.shields.io/badge/PyTorch-2.x-red)
 ![Transformers](https://img.shields.io/badge/HuggingFace-Transformers-yellow)
 ![Streamlit](https://img.shields.io/badge/Streamlit-App-ff4b4b)
+![SQLite](https://img.shields.io/badge/Database-SQLite-blue)
 ![License](https://img.shields.io/badge/License-MIT-green)
 
 <p align="center">
-  <b>Generate SQL Queries from Natural Language using a Fine-Tuned Qwen2.5 Model</b>
+<b>AI-Powered Text-to-SQL Assistant using a Fine-Tuned Qwen2.5 Model</b>
 </p>
 
 ---
 
-## 📖 Overview
+# 📖 Overview
 
-SQLMind AI is an AI-powered application that converts natural language into SQL queries using a fine-tuned **Qwen2.5 Instruct** language model. The project combines a modern Streamlit web interface with a complete QLoRA fine-tuning pipeline for efficient SQL generation.
+SQLMind AI is an AI-powered Text-to-SQL application that converts natural language into executable SQL queries using a fine-tuned Qwen2.5 language model.
 
-Whether you're learning SQL or building database applications, SQLMind AI allows users to describe database requests in plain English and instantly receive accurate SQL queries.
+The generated SQL is automatically executed on a SQLite database through an interactive Streamlit interface, allowing users to view, export, and manage query results instantly.
+
+The model was fine-tuned using QLoRA for efficient inference while maintaining high SQL generation quality.
 
 ---
 
-## ✨ Features
+# ✨ Features
 
 | Feature | Description |
 |----------|-------------|
-|  Natural Language to SQL | Converts English prompts into SQL queries |
-|  Fine-Tuned Qwen2.5 | Uses a QLoRA fine-tuned language model |
-|  Streamlit Interface | Clean and interactive web application |
-|  SQL Export | Download generated SQL queries |
-|  Efficient Inference | 4-bit quantized model for lower memory usage |
-|  Training Pipeline | Dataset preparation, tokenization, and fine-tuning |
+| Natural Language → SQL | Convert English requests into SQL queries |
+| Fine-Tuned Qwen2.5 | QLoRA fine-tuned language model |
+| Execute SQL | Execute generated SQL on SQLite |
+| Query Results | Display query results instantly |
+| Export Results | Download SQL, CSV, and Excel |
+| Query History | Save recently executed queries |
+| Modern UI | Interactive Streamlit interface |
+| Efficient Inference | 4-bit quantized model |
 
 ---
 
-## 🏗️ Project Architecture
+# 🏗️ Project Architecture
 
 ```text
                 User
                   │
                   ▼
-          Streamlit Web App
+        Streamlit Web Interface
                   │
                   ▼
-          Inference Engine
+      Fine-Tuned Qwen2.5 Model
                   │
                   ▼
-     Fine-Tuned Qwen2.5 Model
+        Generated SQL Query
                   │
                   ▼
-          Generated SQL Query
+     SQLite (Northwind Database)
+                  │
+                  ▼
+      Query Results & Export
 ```
 
 ---
 
-## 📂 Project Structure
+# 📂 Project Structure
 
-```
+```text
 SQLMind-AI/
 │
 ├── app/
 │   ├── app.py
-│   └── inference.py
+│   ├── inference.py
+│   └── database.py
+│
+├── database/
+│   └── northwind2000.sqlite
 │
 ├── training/
 │   ├── prepare_dataset.py
@@ -70,13 +83,13 @@ SQLMind-AI/
 │   └── training_config.py
 │
 ├── requirements.txt
-├── .gitignore
-└── README.md
+├── README.md
+└── .gitignore
 ```
 
 ---
 
-## 🛠️ Tech Stack
+# 🛠️ Tech Stack
 
 - Python
 - PyTorch
@@ -84,12 +97,15 @@ SQLMind-AI/
 - PEFT (QLoRA)
 - BitsAndBytes
 - Streamlit
+- SQLite
+- Pandas
+- OpenPyXL
 - Datasets
 - Accelerate
 
 ---
 
-## ⚙️ Requirements
+# ⚙️ Requirements
 
 - Python 3.10+
 - CUDA-enabled GPU (recommended)
@@ -103,7 +119,7 @@ pip install -r requirements.txt
 
 ---
 
-##  Installation
+# 🚀 Installation
 
 Clone the repository:
 
@@ -143,7 +159,7 @@ pip install -r requirements.txt
 
 ---
 
-##  Running the Application
+# ▶️ Running the Application
 
 Launch the Streamlit application:
 
@@ -151,78 +167,132 @@ Launch the Streamlit application:
 streamlit run app/app.py
 ```
 
-Then open your browser and start generating SQL queries from natural language.
-
+Then open your browser and start interacting with your database using natural language.
 ---
 
-## 🧠 Training Workflow
+# 🧠 Training Workflow
 
-### 1. Prepare the dataset
+### 1. Prepare the Dataset
 
 ```bash
 python training/prepare_dataset.py
 ```
 
-### 2. Tokenize the dataset
+### 2. Tokenize the Dataset
 
 ```bash
 python training/tokenize_dataset.py
 ```
 
-### 3. Fine-tune the model
+### 3. Fine-Tune the Model
 
 ```bash
 python training/train.py
 ```
 
-Training parameters are defined in:
+Training parameters are configured in:
 
-```
+```text
 configs/training_config.py
 ```
 
-The model is fine-tuned using **QLoRA** with **4-bit quantization** for efficient memory usage.
+The model is fine-tuned using **QLoRA** with **4-bit quantization**, enabling efficient memory usage while preserving strong SQL generation performance.
 
 ---
 
-##  Example
+# 💡 Example
 
-### Input
+### User Input
 
 ```text
-Show all employees earning more than 7000.
+Show all customers from Germany.
 ```
 
 ### Generated SQL
 
 ```sql
 SELECT *
-FROM employees
-WHERE salary > 7000;
+FROM Customers
+WHERE Country = 'Germany';
 ```
 
----
+### Query Result
 
-## 📌 Example Prompts
-
-- Show all employees earning more than 7000
-- List the names of all students
-- Show total sales by month
-- List customers from Cairo
+| CustomerID | CompanyName | Country |
+|------------|-------------|----------|
+| ALFKI | Alfreds Futterkiste | Germany |
+| BLAUS | Blauer See Delikatessen | Germany |
 
 ---
 
-##  Future Improvements
+# 📌 Example Prompts
 
-- Database schema-aware prompting
-- Multi-table query generation
-- Support for multiple SQL dialects (MySQL, PostgreSQL, SQLite)
-- SQL explanation and debugging mode
-- Query optimization suggestions
-- Docker deployment
+- List all employees
+- Show all products
+- Show all customers from Germany
+- List all orders
+- Show all suppliers
+- List all categories
+
 ---
 
-##  Author
+# 📤 Export Options
+
+SQLMind AI allows users to export generated results in multiple formats:
+
+- SQL (.sql)
+- CSV (.csv)
+- Excel (.xlsx)
+
+This makes it easy to reuse generated queries or analyze the returned data using external tools.
+
+---
+
+# 🕘 Query History
+
+The application stores recently executed queries during the current session, allowing users to quickly review previously generated SQL statements.
+
+---
+
+# 🚀 Future Improvements
+
+- Automatic Database Schema Detection
+- Support for PostgreSQL and MySQL
+- SQL Query Explanation
+- Query Optimization Suggestions
+- Interactive Charts & Dashboards
+- REST API
+- Docker Deployment
+- Authentication & User Management
+- Multi-Database Support
+
+---
+
+# 📷 Screenshots
+
+### Home Page
+
+```
+images/home.png
+```
+
+### Generated SQL
+
+```
+images/generated_sql.png
+```
+
+### Query Results
+
+```
+images/query_results.png
+```
+
+> Replace these placeholders with screenshots from your application.
+
+---
+
+# 👩‍💻 Author
 
 **Sana Elbakry**
 
@@ -230,4 +300,23 @@ Faculty of Computers and Artificial Intelligence
 
 Artificial Intelligence Student
 
+GitHub: https://github.com/Sana1020
+
 ---
+
+# ⭐ Acknowledgments
+
+This project was built using:
+
+- Hugging Face Transformers
+- PEFT (QLoRA)
+- PyTorch
+- Streamlit
+- SQLite
+- Northwind Sample Database
+
+---
+
+## License
+
+This project is licensed under the **MIT License**.
