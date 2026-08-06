@@ -272,25 +272,15 @@ The application stores recently executed queries during the current session, all
 
 ### Home Page
 
-```
 ![Home Page](images/home.png)
-```
 
 ### Generated SQL
 
-```
 ![Generated SQL](images/generated_sql.png)
-
-
-```
 
 ### Query Results
 
-```
 ![Query Results](images/query_results.png)
-```
-
-> Replace these placeholders with screenshots from your application.
 
 ---
 
