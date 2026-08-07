@@ -214,7 +214,6 @@ question = st.text_area(
     height=180,
     placeholder="Example: Show all customers from Germany"
 )
-
 # ==========================
 # Run Query
 # ==========================
@@ -227,26 +226,51 @@ if st.button("Run Query", use_container_width=True):
 
             try:
 
+                st.session_state.error = None
+
                 start_time = time.time()
 
-                sql = generate_sql(question)
+                blocked_words = [
+                    "delete",
+                    "drop",
+                    "truncate",
+                    "update",
+                    "insert",
+                    "alter",
+                    "create"
+                ]
 
-                df, error = execute_query(sql)
+                question_lower = question.lower()
 
-                execution_time = time.time() - start_time
+                if any(word in question_lower for word in blocked_words):
 
-                st.session_state.sql = sql
-                st.session_state.df = df
-                st.session_state.error = error
-                st.session_state.execution_time = execution_time
+                    st.session_state.sql = None
+                    st.session_state.df = None
+                    st.session_state.error = (
+                        "Only read-only SELECT queries are allowed."
+                    )
+                    st.session_state.execution_time = None
 
-                st.session_state.history.insert(
-                    0,
-                    {
-                        "Question": question,
-                        "SQL": sql
-                    }
-                )
+                else:
+
+                    sql = generate_sql(question)
+
+                    df, error = execute_query(sql)
+
+                    execution_time = time.time() - start_time
+
+                    st.session_state.sql = sql
+                    st.session_state.df = df
+                    st.session_state.error = error
+                    st.session_state.execution_time = execution_time
+
+                    st.session_state.history.insert(
+                        0,
+                        {
+                            "Question": question,
+                            "SQL": sql
+                        }
+                    )
 
             except Exception as e:
 
@@ -255,7 +279,7 @@ if st.button("Run Query", use_container_width=True):
     else:
 
         st.warning("Please enter a request.")
-
+       
 # ==========================
 # Generated SQL
 # ==========================
@@ -271,7 +295,6 @@ if st.session_state.sql:
     """, unsafe_allow_html=True)
 
     st.code(st.session_state.sql, language="sql")
-
 # ==========================
 # Results
 # ==========================
