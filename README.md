@@ -13,7 +13,7 @@
 
 ---
 
-# 📖 Overview
+#  Overview
 
 SQLMind AI is an AI-powered Text-to-SQL application that converts natural language into executable SQL queries using a fine-tuned Qwen2.5 language model.
 
@@ -23,7 +23,7 @@ The model was fine-tuned using QLoRA for efficient inference while maintaining h
 
 ---
 
-## 🎥 Demo
+##  Demo
 
 [▶️ Watch SQLMind AI Demo](https://github.com/Sana1020/SQLMind-AI/releases/tag/v1.0)
 
