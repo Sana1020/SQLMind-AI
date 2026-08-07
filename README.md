@@ -37,26 +37,38 @@ The model was fine-tuned using QLoRA for efficient inference while maintaining h
 | Efficient Inference | 4-bit quantized model |
 
 ---
+# Security
+
+SQLMind AI includes a safety layer before executing generated SQL.
+
+- Only SELECT queries are allowed.
+- DELETE, UPDATE, INSERT, DROP, ALTER, CREATE, and TRUNCATE statements are blocked.
+- Prevents accidental modification of the database.
+- -----
 
 #  Project Architecture
 
 ```text
-                User
-                  │
-                  ▼
-        Streamlit Web Interface
-                  │
-                  ▼
-      Fine-Tuned Qwen2.5 Model
-                  │
-                  ▼
-        Generated SQL Query
-                  │
-                  ▼
-     SQLite (Northwind Database)
-                  │
-                  ▼
-      Query Results & Export
+
+ User Question
+      │
+      ▼
+Prompt Construction
+      │
+      ▼
+Fine-Tuned Qwen2.5
+      │
+      ▼
+Generated SQL
+      │
+      ▼
+Security Validation
+      │
+      ▼
+SQLite Execution
+      │
+      ▼
+Results
 ```
 
 ---
