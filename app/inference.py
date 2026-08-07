@@ -135,6 +135,7 @@ Database Schema:
 {schema}
 
 Important Rules:
+
 1. Use ONLY the table names above.
 2. Use ONLY the column names above.
 3. NEVER invent a table or column.
@@ -144,18 +145,25 @@ Important Rules:
 Question:
 {question}
 
-
-
-
 ### Response:
 """
+
     print("=" * 50)
     print(prompt)
     print("=" * 50)
-    inputs = tokenizer(prompt, return_tensors="pt")
-    inputs = {k: v.to(model.device) for k, v in inputs.items()}
+
+    inputs = tokenizer(
+        prompt,
+        return_tensors="pt"
+    )
+
+    inputs = {
+        k: v.to(model.device)
+        for k, v in inputs.items()
+    }
 
     with torch.no_grad():
+
         outputs = model.generate(
             **inputs,
             max_new_tokens=128,
@@ -164,9 +172,17 @@ Question:
             pad_token_id=tokenizer.eos_token_id,
         )
 
-    generated_text = tokenizer.decode(outputs[0], skip_special_tokens=True)
+    generated_text = tokenizer.decode(
+        outputs[0],
+        skip_special_tokens=True
+    )
 
     sql = generated_text.split("### Response:")[-1].strip()
+
+    # ==========================
+    # SQL Validation
+    # ==========================
+
 
     return sql
 if __name__ == "__main__":
