@@ -23,6 +23,27 @@ The model was fine-tuned using QLoRA for efficient inference while maintaining h
 
 ---
 
+## 🎥 Demo
+
+[▶️ Watch SQLMind AI Demo](https://github.com/Sana1020/SQLMind-AI/releases/tag/v1.0)
+
+---
+#  Project Screenshots
+
+### Home Page
+
+![Home Page](images/home.png)
+
+### Generated SQL
+
+![Generated SQL](images/generated_sql.png)
+
+### Query Results
+
+![Query Results](images/query_results.png)
+
+---
+
 #  Features
 
 | Feature | Description |
